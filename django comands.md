@@ -44,6 +44,65 @@ To create a new app:
 ```
 py manage.py startapp polls
 ```
+## Models and Database and Views
+
+To work with models (database):
+
+1. Make a new app which you will use this data in it. Connect it to your main app by using the `settings.py` file 
+3. Make a new file in your new app called `urls.py` and connect it with the main app `urls.py` by the `include` method :
+    1. myapp -> urls.py 
+    ```
+    from django.urls import path
+
+    from . import views
+
+    urlpatterns = [
+        path('', views.index, name='index'),
+    ]
+    ```
+    2. mysite -> urls.py
+    ```
+    from django.contrib import admin
+    from django.urls import include, path
+
+    urlpatterns = [
+        path('myapp/', include('myapp.urls')),
+        path('admin/', admin.site.urls),
+    ]
+    ```
+4. make the view go to `views.py` in ur app :
+```
+from django.http import HttpResponse
+
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the myapp index.")
+```
+4. Go to your `models.py` file then start to specify the data into a class
+5. We will use the `models` which is imported by Django and it has all fields we need
+6. The code will be something like this:
+
+```
+from django.db import models
+
+class Product(models.Model):
+    name = models.CharField(max_length=50,verbose_name'Title',default = 'Name')    # the product name
+    content = models.TextField(null = True, blank = True)              # the product content
+    price = models.DecimalField(max_digits=6,decimal_places=2)    # product price
+    image = models.ImageField(upload_to='photos/%y/%m/%d')        # product image
+    active = models.BooleanField(default=True)               # product status (active / not active)
+    
+    class Meta :
+        verbose_name = "Product"  # the name in admin page
+        # ordering = ['name']     # order the products by name
+        ordering = ['price']      # order the products by price
+```
+7. Go to the settings file and add your new app to the INSTALLED_APPS list.
+8. To add the Product class to the database, run the following commands:
+8. `py manage.py makemigrations` to create a new migration file.
+8. `py manage.py migrate` to apply the migration and create the table in the database.
+9. Now, you can add, edit, or remove a product from the admin page. To access the admin page, go to `localhost:8000/admin/` in your browser.
+10. For the image part, we will split the pics into folders named (year, month, day), and that will be helpful and increase our website speed. We will use (`upload_to='folder name </photo> /%y/%m/%d'`).
 
 ## Templates
 
@@ -155,32 +214,6 @@ If you want to add an image, you should first put the image in the `static/image
 {% endblock content %}
 ```
 
-## Models and Database
-
-To work with models (database):
-
-1. Make a new app which you will use this data in2. Connect it to your main app by using the `settings.py` file 
-3. Make a new file in your new app called `urls.py` and connect it with the main app `urls.py` by the include method
-4. Go to your `models.py` file then start to specify the data into a class
-5. We will use the `models` which is imported by Django and it has all fields we need
-6. The code will be something like this:
-
-```
-from django.db import models
-
-class Product(models.Model):
-    name = models.CharField(max_length=50,verbose_name'Title',default = 'Name')    # the product name
-    content = models.TextField(null = True, blank = True)              # the product content
-    price = models.DecimalField(max_digits=6,decimal_places=2)    # product price
-    image = models.ImageField(upload_to='photos/%y/%m/%d')        # product image
-    active = models.BooleanField(default=True)               # product status (active / not active)
-```
-7. Go to the settings file and add your new app to the INSTALLED_APPS list.
-8. To add the Product class to the database, run the following commands:
-8. `py manage.py makemigrations` to create a new migration file.
-8. `py manage.py migrate` to apply the migration and create the table in the database.
-9. Now, you can add, edit, or remove a product from the admin page. To access the admin page, go to localhost:8000/admin/ in your browser.
-10. For the image part, we will split the pics into folders named (year, month, day), and that will be helpful and increase our website speed. We will use (`upload_to='folder name </photo> /%y/%m/%d'`).
 
 ## Admin Panel
 
