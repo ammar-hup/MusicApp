@@ -1,3 +1,22 @@
+# Poetry Commands
+Here are some useful commands and tips for working with poetry.
+To initialize poetry :
+```
+poetry init
+```
+To enter the poetry virtual environment (venv) :
+```
+poetry shell
+```
+To Add packaged to poetry (django for example) :
+```
+poetry add django
+```
+To exit the poetry venv :
+```
+exit
+```
+
 # Django Commands
 
 Here are some useful commands and tips for working with Django.
