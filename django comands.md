@@ -91,7 +91,10 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6,decimal_places=2)    # product price
     image = models.ImageField(upload_to='photos/%y/%m/%d')        # product image
     active = models.BooleanField(default=True)               # product status (active / not active)
-    
+    socialLink = models.URLField(null=False)                # social link validetor
+    creation_datetime = models.DateTimeField(auto_now_add=True) # date and time 
+    artist = models.ForeignKey(Artist,on_delete=models.CASCADE) # one to many relationship 
+
     class Meta :
         verbose_name = "Product"  # the name in admin page
         # ordering = ['name']     # order the products by name
@@ -102,7 +105,13 @@ class Product(models.Model):
 8. `py manage.py makemigrations` to create a new migration file.
 8. `py manage.py migrate` to apply the migration and create the table in the database.
 9. Now, you can add, edit, or remove a product from the admin page. To access the admin page, go to `localhost:8000/admin/` in your browser.
-10. For the image part, we will split the pics into folders named (year, month, day), and that will be helpful and increase our website speed. We will use (`upload_to='folder name </photo> /%y/%m/%d'`).
+10. to show the items in the admin panal to edit them go to `admin.py` file in ur app :
+```
+from .models import appClassName
+
+admin.site.register(appClassName)
+```
+11. For the image part, we will split the pics into folders named (year, month, day), and that will be helpful and increase our website speed. We will use (`upload_to='folder name </photo> /%y/%m/%d'`).
 
 ## Templates
 
