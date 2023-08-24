@@ -462,8 +462,10 @@ we will use a django liberary for the form
         <input type="submit" value="save" >
     </form>
     ```
-#### the second method #####(the best way)
+#### the third method #####(the best way)
 we will use the data from `models` to make the form (it's like a combination between method 1 and 2)
+
+1. make a file in the page folder named `forms.py` 
 
 1. go to `forms.py` and call the models :
     ```
