@@ -75,6 +75,13 @@ Album.objects.all().order_by('cost')
 <QuerySet [<Album: Album 3>, <Album: Album 1>]>
 
 -----------------------------------
+
 Album.objects.all().order_by('name')
 
 <QuerySet [<Album: Album 1>, <Album: Album 3>]>
+
+-----------------------------------
+
+ Artist.objects.annotate(approved_albums=Count('album',filter=Q(album__is_approved=True))).order_by('approved_albums')
+
+ <QuerySet [<Artist: drake>, <Artist: Ammar>, <Artist: ahmed>]>
