@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Artist(models.Model):
-    name = models.CharField(blank = False,unique = True,max_length=200)
+    artist_name = models.CharField(blank = False,unique = True,max_length=200)
     socialLink = models.URLField(null=False,default="https://www.instagram.com")
 
     def __str__(self):
