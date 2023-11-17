@@ -7,4 +7,4 @@ from .models import Artist
 class ArtistAdmin(admin.ModelAdmin):
     model = Artist
 
-admin.site.register(ArtistAdmin)
+admin.site.register(Artist,ArtistAdmin)

@@ -8,10 +8,10 @@ class Album(models.Model):
     creation_datetime = models.DateTimeField(auto_now_add=True)
     release_datetime = models.DateTimeField(auto_now_add=True)
     cost = models.FloatField()
-    artist = models.ForeignKey(Artist, on_delete=models.SET_NULL)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.name    
     class Meta :
-        ordering = ['name']
+        ordering = ['album_name']
         verbose_name = "Album"

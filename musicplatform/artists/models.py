@@ -9,7 +9,7 @@ class Artist(models.Model):
     def __str__(self):
         return self.name    
 
-    class Meta :
-        ordering = ['name']
+    class Meta:
+        ordering = ['artist_name']
         verbose_name = "Artist"
 
