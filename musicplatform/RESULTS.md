@@ -3,11 +3,11 @@ from artists.models import Artist
 from albums.models import Album
 
 # Create
-Artist.objects.create(name = "Drake" , socialLink = "https://www.instagram.com/drake/")
+Artist.objects.create(artist_name = "Drake" , socialLink = "https://www.instagram.com/drake/")
 
 <Artist: Drake>
 
-Artist.objects.create(name = "adle" , socialLink = "https://www.instagram.com/adle/")
+Artist.objects.create(artist_name = "adle" , socialLink = "https://www.instagram.com/adle/")
 
 <Artist: adle>
 
