@@ -14,7 +14,7 @@ class Artist(models.Model):
     objects = ArtistManager()
 
     def __str__(self):
-        return self.name    
+        return self.artist_name    
 
     class Meta :
         ordering = ['artist_name']
