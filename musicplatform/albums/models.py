@@ -1,16 +1,18 @@
 from django.db import models
 from artists.models import Artist
+from django.utils import timezone
+
 # Create your models here.
 
 class Album(models.Model):
-    name = models.CharField(default='New Album',max_length=200)
-    creation_datetime = models.DateTimeField(auto_now_add=True,blank=False)
-    release_datetime = models.DateTimeField(auto_now_add=True)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    album_name = models.CharField(max_length=255, default='New Album')
+    creation_datetime = models.DateTimeField(auto_now_add=True)
+    release_datetime = models.DateTimeField()
     cost = models.FloatField()
-    artist = models.ForeignKey(Artist, on_delete=models.DO_NOTHING)
     is_approved = models.BooleanField(default=False,help_text='Approve the album if its name is not explicit')
     def __str__(self):
         return self.name    
     class Meta :
-        ordering = ['name']
+        ordering = ['album_name']
         verbose_name = "Album"
