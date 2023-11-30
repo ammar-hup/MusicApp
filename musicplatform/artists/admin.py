@@ -7,7 +7,7 @@ from albums.models import Album
 class AlbumInline(admin.TabularInline):
     model = Album
 class ArtistAdmin(admin.ModelAdmin):
-    list_display = ['artist_name' , 'social_link','approved_albums']
+    list_display = ['artist_name', 'social_link', 'approved_albums']
     inlines = [AlbumInline]
 
     def approved_albums(self, obj):
