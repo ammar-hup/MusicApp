@@ -3,10 +3,8 @@ from django.db import models
 
 
 class ArtistManager(models.Manager):
-    def with_approved_albums_count(self):
-        return self.annotate(
-            approved_albums_count=Count('album', filter=Q(album__is_approved=True))
-        ).order_by('approved_albums_count')
+    def approved_albums(self):
+        return self.annotate(approved_albums=Count('album',filter=Q(album__is_approved=True))).order_by('approved_albums')
 
 class Artist(models.Model):
 
