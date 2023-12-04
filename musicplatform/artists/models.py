@@ -4,7 +4,7 @@ from django.db import models
 
 class ArtistManager(models.Manager):
     def approved_albums(self):
-        return self.annotate(approved_albums=Count('album',filter=Q(album__is_approved=True))).order_by('approved_albums')
+        return self.annotate(approved_albums=Count('album',filter=Q(album__is_approved=True))).order_by('-approved_albums')
 
 class Artist(models.Model):
 
