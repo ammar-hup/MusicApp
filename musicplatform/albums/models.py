@@ -1,8 +1,11 @@
 from django.db import models
 from artists.models import Artist
+from django_extensions.db.models import TimeStampedModel
+from django.db.models import Count, Q
+
 # Create your models here.
 
-class Album(models.Model):
+class Album(models.Model,):
     album_name = models.CharField(default='New Album',max_length=200)
     creation_datetime = models.DateTimeField(auto_now_add=True,blank=False)
     release_datetime = models.DateTimeField(blank=True, null=True , auto_now_add=True)
