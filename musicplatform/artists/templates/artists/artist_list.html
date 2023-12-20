@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist List</title>
+</head>
+<body>
+
+{% for artist in artists %}
+    <div>
+        <h3>Artist:</h3>
+        <ul>
+            <li>id: {{ artist.id }}</li>
+            <li>Stage name: {{ artist.artist_name }}</li>
+            <li>Social: {{ artist.social_link }}</li>
+        </ul>
+            
+            <div >
+                <h4>Albums:</h4>
+                {% for album in artist.album_set.all %}
+                    <ul>
+                        <li>id: {{ album.id }}</li>
+                        <li>Name: {{ album.album_name }}</li>
+                        <li>Creation Time: {{ album.creation_datetime }}</li>
+                        <li>Release datetime: {{ album.release_datetime }}</li>
+                        <li>Cost: {{ album.cost }}</li>
+                    </ul>
+                    <hr>
+                {% endfor %}
+            </div>
+    </div>
+{% endfor %}
+
+</body>
+</html>

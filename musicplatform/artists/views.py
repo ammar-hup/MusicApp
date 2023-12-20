@@ -5,8 +5,10 @@ from .forms import ArtistForm
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("You're at the Artist index.")
+def artist_list(request):
+    # Fetch artists and their related albums in one query
+    artists = Artist.objects.prefetch_related('album_set').all()
+    return render(request, 'artists/artist_list.html', {'artists': artists})
 
 # create artist from the form
 def create_artist(request):
