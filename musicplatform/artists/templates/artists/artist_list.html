@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artist List</title>
-</head>
-<body>
-
 {% for artist in artists %}
     <div>
         <h3>Artist:</h3>
@@ -15,9 +6,10 @@
             <li>Stage name: {{ artist.artist_name }}</li>
             <li>Social: {{ artist.social_link }}</li>
         </ul>
-            
-            <div >
-                <h4>Albums:</h4>
+
+        <div>
+            <h4>Albums:</h4>
+            {% if artist.album_set.all %}
                 {% for album in artist.album_set.all %}
                     <ul>
                         <li>id: {{ album.id }}</li>
@@ -28,9 +20,9 @@
                     </ul>
                     <hr>
                 {% endfor %}
-            </div>
+            {% else %}
+                <p style="color: red;">No albums exist.</p>
+            {% endif %}
+        </div>
     </div>
 {% endfor %}
-
-</body>
-</html>

@@ -9,7 +9,7 @@ class ArtistManager(models.Manager):
 class Artist(models.Model):
 
     artist_name = models.CharField(unique = True,max_length=255,default='Unknown')
-    social_link = models.URLField(default="https://www.instagram.com")
+    social_link = models.URLField(default="https://www.instagram.com/")
     objects = ArtistManager()
 
     def __str__(self):

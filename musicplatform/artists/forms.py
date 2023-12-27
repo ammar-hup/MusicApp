@@ -4,4 +4,4 @@ from .models import Artist
 class ArtistForm(forms.ModelForm):
     class Meta:
         model = Artist
-        fields = ['artist_name']
+        fields = ['artist_name','social_link']

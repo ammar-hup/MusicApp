@@ -6,7 +6,7 @@ from .models import Album
 # Create your views here.
 def index(request):
     return HttpResponse("You're at the Album index.")
-
+# the form method
 def create_album(request):
     if request.method == 'POST':
         form = AlbumForm(request.POST)
@@ -16,14 +16,14 @@ def create_album(request):
             artist = form.cleaned_data['artist']
             is_approved = form.cleaned_data['is_approved']
 
-            # Do something with the retrieved data (e.g., create an Album instance)
+            # create an Album instance with the retrieved data
             new_album = Album.objects.create(
                 album_name=album_name,
                 cost=cost,
                 artist=artist,
                 is_approved=is_approved,
             )
-            return redirect(request.path)  # Redirect to the artist list view or any other desired page after successful form submission
+            return redirect(request.path)  # Redirect to the same page after creating an album , and be able to create another album
     else:
         form = AlbumForm()
 

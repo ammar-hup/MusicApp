@@ -16,8 +16,9 @@ def create_artist(request):
         form = ArtistForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['artist_name']
-            Artist.objects.create(artist_name=name)
-            return redirect(request.path)  # Redirect to the artist list view or any other desired page after successful form submission
+            social_link = form.cleaned_data['social_link']
+            Artist.objects.create(artist_name = name , social_link = social_link)
+            return redirect(request.path)  # Redirect to the same page after creating an artist , and you will be able to create another artist
     else:
         form = ArtistForm()
 

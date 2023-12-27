@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Create Album</title>
-    </head>
-    <body>
+<h2>Create Album</h2>
 
-        <h2>Create Album</h2>
+{% if form.errors %}
+    <div style="color: red;">
+        Please correct the following errors:
+        {{ form.errors }}
+    </div>
+{% endif %}
 
-        {% if form.errors %}
-            <div style="color: red;">
-                Please correct the following errors:
-                {{ form.errors }}
-            </div>
-        {% endif %}
+<form method="post" action="{% url 'create_album' %}">
+    {% csrf_token %}
 
-        <form method="post" action="{% url 'create_album' %}">
-            {% csrf_token %}
+    {{ form.as_p }}
 
-            {{ form.as_p }}
-
-            <button type="submit">Create Album</button>
-        </form>
-    </body>
-</html>
+    <button type="submit">Create Album</button>
+</form>
