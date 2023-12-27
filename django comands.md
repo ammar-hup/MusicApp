@@ -44,7 +44,7 @@ py manage.py runserver
 To create a new app:
 
 ```
-py manage.py startapp polls
+py manage.py startapp appname
 ```
 ## Models and Database and Views
 
