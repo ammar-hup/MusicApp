@@ -1,7 +1,7 @@
 # Poetry Commands
-Bo
 
 Here are some useful commands and tips for working with poetry.
+
 To initialize poetry :
 ```
 poetry init
@@ -35,6 +35,11 @@ To create a new Django project:
 django-admin startproject mysite
 ```
 
+To create a superuser for the admin site:
+
+```
+py manage.py create superuser
+```
 To start the server:
 
 ```
