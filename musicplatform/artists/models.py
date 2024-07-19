@@ -9,7 +9,6 @@ class ArtistManager(models.Manager):
         ).order_by('approved_albums_count')
 
 class Artist(models.Model):
-
     artist_name = models.CharField(unique = True,max_length=255,default='Unknown')
     social_link = models.URLField(default="https://www.instagram.com")
     objects = ArtistManager()
@@ -20,4 +19,6 @@ class Artist(models.Model):
     class Meta :
         ordering = ['artist_name']
         verbose_name = "Artist"
+
+
 

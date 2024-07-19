@@ -85,3 +85,17 @@ Album.objects.all().order_by('artist_name')
  Artist.objects.annotate(approved_albums=Count('album',filter=Q(album__is_approved=True))).order_by('approved_albums')
 
  <QuerySet [<Artist: drake>, <Artist: Ammar>, <Artist: ahmed>]>
+--------------------------------------------------------------------------------------------------
+
+artists = Artist.objects.with_approved_albums_count()
+
+for artist in artists:
+    print(f'{artist.artist_name} has {artist.approved_albums_count} approved albums')
+
+Flir0o has 0 approved albums
+Unknown has 0 approved albums
+adle has 0 approved albums
+alfons has 0 approved albums
+cairooo has 0 approved albums
+car has 0 approved albums
+yasser has 0 approved albums
