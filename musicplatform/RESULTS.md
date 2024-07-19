@@ -1,13 +1,9 @@
-# import the models first
-from artists.models import Artist
-from albums.models import Album
-
 # Create
-Artist.objects.create(artist_name = "Drake" , socialLink = "https://www.instagram.com/drake/")
+Artist.objects.create(artist_name = "Drake" , social_link = "https://www.instagram.com/drake/")
 
 <Artist: Drake>
 
-Artist.objects.create(artist_name = "adle" , socialLink = "https://www.instagram.com/adle/")
+Artist.objects.create(artist_name = "adle" , social_link = "https://www.instagram.com/adle/")
 
 <Artist: adle>
 
@@ -17,19 +13,19 @@ Artist.objects.all()
 <QuerySet [<Artist: Drake>, <Artist: adle>]>
 
 # order_by
-Artist.objects.all().order_by('-name')
+Artist.objects.all().order_by('-artist_name')
 
 <QuerySet [<Artist: Drake>, <Artist: adle>]>
 
 # startswith
-Artist.objects.filter(name__startswith='a')
+Artist.objects.filter(artist_name__startswith='a')
 
 <QuerySet [<Artist: adle>]>
 # create artist and album
 
-artist = Artist.objects.create(name = 'Ammar') 
+artist = Artist.objects.create(artist_name = 'Ammar') 
 
-album1 = Album.objects.create(name='Album 1', cost=9.99, artist=artist)  
+album1 = Album.objects.create(album_name='Album 1', cost=9.99, artist=artist)  
 
 Artist.objects.all() 
 
@@ -56,17 +52,25 @@ from myapp.models import Artist, Album
 
 artists = Artist.objects.all()
 for artist in artists:
-    print(f"Artist: {artist.name}")
+    print(f"Artist: {artist.artist_name}")
     albums = Album.objects.filter(artist=artist)
     for album in albums:
-        print(f" - Album: {album.name}")
+        print(f" - Album: {album.album_name}")
 
 
-Artist: Ammar
-Artist: ahmed
- - Album: Album 1
-Artist: drake
- - Album: Album 3
+Artist: Flir0o
+Artist: Unknown
+Artist: adle
+ - Album: make me
+ - Album: words
+Artist: alfons
+Artist: cairooo
+ - Album: New Album
+ - Album: n1
+Artist: car
+Artist: yasser
+ - Album: Dal3ny
+ - Album: kosm bld
 
 -------------------------------
 

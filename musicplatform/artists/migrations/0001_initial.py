@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('artist_name', models.CharField(default='Unknown', max_length=255, unique=True)),
-                ('socialLink', models.URLField(default='https://www.instagram.com')),
+                ('social_link', models.URLField(default='https://www.instagram.com')),
             ],
             options={
                 'verbose_name': 'Artist',
