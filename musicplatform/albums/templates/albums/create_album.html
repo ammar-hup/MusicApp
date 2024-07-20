@@ -9,8 +9,6 @@
 
 <form method="post" action="{% url 'create_album' %}">
     {% csrf_token %}
-
     {{ form.as_p }}
-
-    <button type="submit">Create Album</button>
+    <button type="submit" style="color: green;">Create</button>
 </form>

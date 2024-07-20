@@ -5,8 +5,7 @@ from django.db.models import Count, Q
 
 # Create your models here.
 class AlbumManager(models.Manager):
-    def __str__(self):
-        return self.album_name
+    
     class Meta :
         ordering = ['album_name']
         verbose_name = "Album"
@@ -19,6 +18,9 @@ class Album(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     is_approved = models.BooleanField(default=False,help_text='Approve the album if its name is not explicit')
     objects = AlbumManager()
+
+    def __str__(self):
+        return self.album_name
 
       
     

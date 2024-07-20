@@ -4,10 +4,6 @@ from django.db import models
 class ArtistManager(models.Manager):
     def approved_albums(self):
         return self.annotate(approved_albums=Count('album',filter=Q(album__is_approved=True))).order_by('-approved_albums')
-
-    def __str__(self):
-        return self.artist_name    
-
     class Meta :
         ordering = ['artist_name']
         verbose_name = "Artist"
@@ -17,3 +13,5 @@ class Artist(models.Model):
     social_link = models.URLField(default="https://www.instagram.com/")
     objects = ArtistManager()
 
+    def __str__(self):
+        return self.artist_name    
