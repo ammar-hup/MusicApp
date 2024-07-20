@@ -1,7 +1,6 @@
 # Poetry Commands
-Bo
-
 Here are some useful commands and tips for working with poetry.
+
 To initialize poetry :
 ```
 poetry init
@@ -102,7 +101,7 @@ class Product(models.Model):
         # ordering = ['name']     # order the products by name
         ordering = ['price']      # order the products by price
 ```
-7. Go to the settings file and add your new app to the INSTALLED_APPS list.
+7. Go to the settings file and add your new app to the `INSTALLED_APPS` list.
 8. To add the Product class to the database, run the following commands:
 8. `py manage.py makemigrations` to create a new migration file.
 8. `py manage.py migrate` to apply the migration and create the table in the database.
