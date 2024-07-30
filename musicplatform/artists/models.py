@@ -7,7 +7,6 @@ class ArtistManager(models.Manager):
         return self.annotate(approved_albums=Count('album',filter=Q(album__is_approved=True))).order_by('-approved_albums')
 
 class Artist(models.Model):
-
     artist_name = models.CharField(unique = True,max_length=255,default='Unknown')
     social_link = models.URLField(default="https://www.instagram.com/")
     objects = ArtistManager()
