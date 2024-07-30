@@ -1,0 +1,17 @@
+{% block content %}
+    <h2>Create New Artist</h2>
+
+    {% if form.errors %}
+        <div style="color: red;">
+            Please correct the following errors:
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Create</button>
+    </form>
+    <a href="{% url 'artist-list' %}">View All Artists</a>
+{% endblock %}
