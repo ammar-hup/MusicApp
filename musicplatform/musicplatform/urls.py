@@ -17,12 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from . import views
+from authentication.views import SignInView
+
 
 urlpatterns = [
     path('', views.index, name='home'), 
     path('artists/', include('artists.urls')),
     path('albums/', include('albums.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/', include('accounts.urls')),
+    # path('Authentication/', include('Authentication.urls')),
+    path('signin/', SignInView.as_view(), name='signin'),
+    path('accounts/', include('django.contrib.auth.urls')),  # Includes login, logout, password management URLs
     path('admin/', admin.site.urls),
 ]
