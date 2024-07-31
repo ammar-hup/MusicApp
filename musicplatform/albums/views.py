@@ -1,8 +1,9 @@
+
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .forms import AlbumForm
-from .models import Album
-from django.views.generic import ListView,CreateView
+from .models import Album,Song
+from django.views.generic import ListView,CreateView,DetailView
 
 # Create your views here.
 class AlbumList(ListView):
@@ -16,22 +17,18 @@ class CreateAlbumView(CreateView):
     model = Album
     form_class = AlbumForm
     template_name = 'albums/create_album.html'
-    success_url = '/albums/create/'
+    success_url = '/albums/'
 
     def form_valid(self, form):
-        album_name = form.cleaned_data['album_name']
-        cost = form.cleaned_data['cost']
-        artist = form.cleaned_data['artist']
-        is_approved = form.cleaned_data['is_approved']
-        # create an Album instance with the retrieved data
-        new_album = Album.objects.create(
-            album_name=album_name,
-            cost=cost,
-            artist=artist,
-            is_approved=is_approved,
-        )
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        # Ensure at least one song is associated with the album
+        if not self.object.songs.exists():
+            form.add_error(None, "An album must have at least one song.")
+            return self.form_invalid(form)
+        return response
 
-    def get(self, request, *args, **kwargs):
-        form = self.get_form()
-        return self.render_to_response({'form': form})
+class SongDetailView(DetailView):
+    model = Song
+    template_name = 'albums/song_detail.html'
+    context_object_name = 'song'
+    
