@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Ignore media files
+# .gitignore
+musicplatform/media/
+
 # Distribution / packaging
 .Python
 build/

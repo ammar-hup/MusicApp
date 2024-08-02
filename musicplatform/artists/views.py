@@ -1,24 +1,36 @@
+from typing import Any
 from django.shortcuts import redirect, render
-from django.http import HttpResponseRedirect ,HttpResponse
-from .models import Artist,ArtistManager
+from .models import Artist
 from .forms import ArtistForm
+from django.views.generic import ListView,CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
-# Create your views here.
 
-def artist_list(request):
-    # Fetch artists and their related albums in one query
-    artists = Artist.objects.prefetch_related('album_set').all()
-    return render(request, 'artists/artist_list.html', {'artists': artists})
+# Create your class based views here.
 
-# create artist from the form
-def create_artist(request):
-    if request.method == 'POST':
-        form = ArtistForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['artist_name']
-            Artist.objects.create(artist_name=name)
-            return redirect(request.path)  # Redirect to the artist list view or any other desired page after successful form submission
-    else:
-        form = ArtistForm()
+class ArtistListView(ListView):
+    model = Artist
+    context_object_name = 'artists'
+    template_name = 'artist_list.html'
 
-    return render(request, 'artists/create_artist.html', {'form': form})
+    def get_queryset(self):
+#       Fetch artists and their related albums in one query
+        return Artist.objects.prefetch_related('album_set').all()
+
+class ArtistCreateView(LoginRequiredMixin,CreateView):
+    model = Artist
+    form_class = ArtistForm
+    template_name = 'artists/create_artist.html'
+    # success_url = '/artists/create/'
+    success_url = reverse_lazy('artist-list')
+
+    def form_valid(self, form):
+        name = form.cleaned_data['artist_name']
+        social_link = form.cleaned_data['social_link']
+        Artist.objects.create(artist_name=name, social_link=social_link)
+        return super().form_valid(form)
+
+    def get(self, request, *args, **kwargs):
+        form = self.get_form()
+        return self.render_to_response({'form': form})
