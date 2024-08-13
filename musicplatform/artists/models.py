@@ -16,6 +16,6 @@ class Artist(models.Model):
         return self.artist_name    
 
     class Meta :
-        ordering = ['artist_name']
+        ordering = ['id']
         verbose_name = "Artist"
 

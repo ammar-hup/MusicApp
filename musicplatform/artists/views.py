@@ -1,11 +1,14 @@
 from typing import Any
 from django.shortcuts import redirect, render
-from .models import Artist
+from .models import *
 from .forms import ArtistForm
 from django.views.generic import ListView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import ArtistSerializer
+from rest_framework import status, filters
 
 # Create your class based views here.
 
@@ -34,3 +37,19 @@ class ArtistCreateView(LoginRequiredMixin,CreateView):
     def get(self, request, *args, **kwargs):
         form = self.get_form()
         return self.render_to_response({'form': form})
+
+# CBV for Artist API
+class ArtistList(APIView):
+    # GET method
+    def get(self,requst):
+        artists = Artist.objects.all()
+        serializer = ArtistSerializer(artists, many = True)
+        return Response(serializer.data)
+    
+    # Post method
+    def post(self,requst):
+        serializer = ArtistSerializer(data = requst.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
