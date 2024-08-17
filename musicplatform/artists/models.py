@@ -1,6 +1,9 @@
 from django.db.models import Count, Q
 from django.db import models
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+from django.conf import settings
 
 class ArtistManager(models.Manager):
     def approved_albums(self):
@@ -19,3 +22,7 @@ class Artist(models.Model):
         ordering = ['id']
         verbose_name = "Artist"
 
+@receiver(post_save, sender = settings.AUTH_USER_MODEL)
+def UserToken(sender, created, instance, **kwargs):
+    if created:
+        Token.objects.create(user = instance)

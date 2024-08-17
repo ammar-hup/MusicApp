@@ -9,9 +9,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import ArtistSerializer
 from rest_framework import status, filters
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+# from .permissions import IsAuthorOrReadOnly
 
 # Create your class based views here.
-
 class ArtistListView(ListView):
     model = Artist
     context_object_name = 'artists'
@@ -40,6 +42,9 @@ class ArtistCreateView(LoginRequiredMixin,CreateView):
 
 # CBV for Artist API
 class ArtistList(APIView):
+    # authentication method
+    authentication_classes = [BasicAuthentication,TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     # GET method
     def get(self,requst):
         artists = Artist.objects.all()

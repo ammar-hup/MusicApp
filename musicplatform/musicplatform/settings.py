@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os
 from pathlib import Path
+from datetime import timedelta
+from rest_framework.settings import api_settings
+from cryptography.hazmat.primitives import hashes
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,12 +44,32 @@ INSTALLED_APPS = [
     'django_extensions',
     'imagekit',
     'rest_framework',
-    'artists',
+    'rest_framework.authtoken',
+    'knox',
     'albums',
+    'artists',
     'authentication',
+    'users',
 ]
 
-REST_FRAMEWORK = {}  
+
+#aithentication and permissions fir knox
+# REST_KNOX = {
+#     'SECURE_HASH_ALGORITHM': hashes.SHA512,  # Use the callable directly
+#     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
+#     'TOKEN_TTL': timedelta(hours=10),
+#     'USER_SERIALIZER': 'knox.serializers.UserSerializer',
+#     'TOKEN_LIMIT_PER_USER': None,
+#     'AUTO_REFRESH': False,
+#     'EXPIRY_DATETIME_FORMAT': api_settings.DATETIME_FORMAT,
+# }
+
+#aithentication and permissions in the DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'knox.auth.TokenAuthentication',
+    ]
+}  
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,8 +101,10 @@ TEMPLATES = [
 
 # Login
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'artist-list'
+# LOGIN_REDIRECT_URL = 'artist-list'
 
+# use the custome user insted of the deafult
+AUTH_USER_MODEL = 'users.User'
 
 WSGI_APPLICATION = 'musicplatform.wsgi.application'
 
@@ -104,6 +129,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -112,7 +140,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -134,8 +161,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'musicplatform/static')]
 
 # MEDIA settings
-MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 # Default primary key field type
