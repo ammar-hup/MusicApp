@@ -43,7 +43,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 # login serializer
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
-    password = serializers.CharField()
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
@@ -66,7 +66,4 @@ class LoginSerializer(serializers.ModelSerializer):
             }
         }
     
-class LogoutSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = []
+

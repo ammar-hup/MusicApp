@@ -66,9 +66,9 @@ INSTALLED_APPS = [
 
 #aithentication and permissions in the DRF
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'knox.auth.TokenAuthentication',
-    ]
+    ),
 }  
 
 MIDDLEWARE = [
@@ -100,7 +100,7 @@ TEMPLATES = [
 ]
 
 # Login
-LOGIN_URL = 'login'
+# LOGIN_URL = 'login'
 # LOGIN_REDIRECT_URL = 'artist-list'
 
 # use the custome user insted of the deafult
