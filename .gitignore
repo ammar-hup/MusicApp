@@ -10,6 +10,13 @@ __pycache__/
 # .gitignore
 musicplatform/media/
 
+# Ignore static files
+# .gitignore
+musicplatform/static/
+
+# pytype static type analyzer
+.pytype/
+
 # Distribution / packaging
 .Python
 build/
