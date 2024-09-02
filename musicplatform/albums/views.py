@@ -1,18 +1,29 @@
-
-from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .forms import AlbumForm
 from .models import Album,Song
-from django.views.generic import ListView,CreateView,DetailView
+from django.views.generic import CreateView,DetailView
+from .serializers import *
+from rest_framework.response import Response
+from rest_framework import generics, status
+from rest_framework.views import APIView
 
 # Create your views here.
-class AlbumList(ListView):
-    model = Album
-    context_object_name  = 'albums'
-    template_name = 'albums/view_albums.html'
+class ListCreateAlbumView(generics.ListCreateAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
 
-    def get_queryset(self):
-        return Album.objects.all()
+class RetrieveUpdateDestroyAlbumView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+class ListCreateSongView(generics.ListCreateAPIView):
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
+
+class RetrieveUpdateDestroySongView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
+
 class CreateAlbumView(CreateView):
     model = Album
     form_class = AlbumForm
@@ -32,3 +43,15 @@ class SongDetailView(DetailView):
     template_name = 'albums/song_detail.html'
     context_object_name = 'song'
     
+class ListAlbum(APIView):
+    def get(self,request):
+        albums = Album.objects.all()
+        serializer = AlbumSerializer(albums, many=True)
+        return Response(data = serializer.data , status=status.HTTP_200_OK)
+
+    def post(self,request):
+        serializer = AlbumSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

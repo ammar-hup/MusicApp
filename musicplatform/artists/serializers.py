@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import *
-
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
@@ -10,3 +9,8 @@ class ArtistSerializer(serializers.ModelSerializer):
         if Artist.objects.filter(artist_name=value).exists():
             raise serializers.ValidationError("This artist name already exists.")
         return value
+
+    def validate(self, data):
+        if not data.get('artist_name'):
+            raise serializers.ValidationError("Artist name is required.")
+        return data

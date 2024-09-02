@@ -14,6 +14,14 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
+    def perform_create(self, serializer):
+        user = serializer.save()
+        token = AuthToken.objects.create(user)[1]
+        return Response({
+            "user": RegisterSerializer(user).data,
+            "token": token
+        }, status=status.HTTP_201_CREATED)
+
 class LoginView(generics.GenericAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny]

@@ -13,7 +13,6 @@ from rest_framework.authentication import BasicAuthentication, TokenAuthenticati
 from rest_framework.permissions import IsAuthenticated
 # from .permissions import IsAuthorOrReadOnly
 
-# Create your class based views here.
 class ArtistListView(ListView):
     model = Artist
     context_object_name = 'artists'

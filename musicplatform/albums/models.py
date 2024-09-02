@@ -32,12 +32,12 @@ class Album(models.Model):
 class Song(models.Model):
     name = models.CharField(max_length=100)
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='songs')
-    image = models.ImageField(upload_to='songs/', storage=media_storage)
+    image = models.ImageField(upload_to='songs/', storage=media_storage,null=True, blank=True)
     thumbnail = ImageSpecField(source='image',
                                processors=[ResizeToFill(100, 50)],
                                format='JPEG',
                                options={'quality': 60})
-    audio_file = models.FileField(upload_to='songs/audio/', storage=media_storage)
+    audio_file = models.FileField(upload_to='songs/audio/', storage=media_storage, null=True, blank=True)
 
     def __str__(self):
         return self.name

@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 #aithentication and permissions fir knox
 # REST_KNOX = {
-#     'SECURE_HASH_ALGORITHM': hashes.SHA512,  # Use the callable directly
+#     'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
 #     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
 #     'TOKEN_TTL': timedelta(hours=10),
 #     'USER_SERIALIZER': 'knox.serializers.UserSerializer',
@@ -68,6 +68,8 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'knox.auth.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
 }  
 
