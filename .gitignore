@@ -7,8 +7,10 @@ __pycache__/
 *.so
 
 # Ignore media files
-# .gitignore
 musicplatform/media/
+
+# Ignore media files
+musicplatform/static/
 
 # Distribution / packaging
 .Python
