@@ -1,16 +1,19 @@
 from rest_framework import serializers
-from .models import *
+from .models import Artist
+
 class ArtistSerializer(serializers.ModelSerializer):
+    artist_name = serializers.CharField(max_length=255, required=True)  # Set required=True
     class Meta:
         model = Artist
-        fields = ['id','artist_name','social_link']
-
-    def validate_stage_name(self, value):
+        fields = ['artist_name']  # Only include artist_name for creation
+    
+    def validate_artist_name(self, value):
         if Artist.objects.filter(artist_name=value).exists():
             raise serializers.ValidationError("This artist name already exists.")
         return value
 
-    def validate(self, data):
-        if not data.get('artist_name'):
+    def validate_artist_name(self, value):
+        # This check is not necessary if you're using get_or_create in AlbumSerializer
+        if not value:
             raise serializers.ValidationError("Artist name is required.")
-        return data
+        return value

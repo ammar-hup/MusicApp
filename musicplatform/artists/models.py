@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.conf import settings
+from users.models import User
 
 class ArtistManager(models.Manager):
     def approved_albums(self):
@@ -13,6 +14,7 @@ class ArtistManager(models.Manager):
 class Artist(models.Model):
     artist_name = models.CharField(unique = True,max_length=255,default='Unknown')
     social_link = models.URLField(default="https://www.instagram.com/")
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name = 'artist',null=True)
     objects = ArtistManager()
 
     def __str__(self):

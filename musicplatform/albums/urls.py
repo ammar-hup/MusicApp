@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns = [
    # API routes
+    path('manual-filter/', ManualFilterAlbumView.as_view(), name='manual-filter-album'),  # New endpoint
     path('', ListCreateAlbumView.as_view(), name='album-create'),
     path('<int:pk>/', RetrieveUpdateDestroyAlbumView.as_view(), name='album-detail'),
     path('songs/', ListCreateSongView.as_view(), name='song-list'),
@@ -10,5 +11,4 @@ urlpatterns = [
     # Web routes
     path('create/', CreateAlbumView.as_view(), name='album-web-view'),
     path('songs/<int:pk>/', SongDetailView.as_view(), name='song-web-view'),
-    path('', ListAlbum.as_view(), name='view_albums'),
-]
+    ]

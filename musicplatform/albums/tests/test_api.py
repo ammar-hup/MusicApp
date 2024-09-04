@@ -18,12 +18,23 @@ class TestAlbumAPI:
 
     def test_post_with_wrong_data(self):
         client = APIClient()
-        artist_data = {"artist_name": "TestName", "socialLink": "https://www.instagram.com/"}
-        artist = ArtistSerializer(data=artist_data)
-        if artist.is_valid():
-            artist_instance = artist.save()  # Save the artist instance
+
+        # Create an artist
+        artist_data = {"artist_name": "TestName", "social_link": "https://www.instagram.com/"}
+        artist_serializer = ArtistSerializer(data=artist_data)
+        if artist_serializer.is_valid():
+            artist_instance = artist_serializer.save()  # Save the artist instance
         else:
-            print(artist.errors)  # Print errors if artist is not valid
+            print(artist_serializer.errors)  # Print errors if artist is not valid
+
+        # Create a user for authentication
+        user = User.objects.create_user(username='testuser', password='testpassword')
+        # Assuming you have a related Artist model connected to the User
+        artist_instance.user = user  # Link the artist to the user
+        artist_instance.save()
+
+        # Authenticate the client
+        client.force_authenticate(user=user)
 
         response = client.post(reverse('album-create'),
                                 {
@@ -31,18 +42,28 @@ class TestAlbumAPI:
                                 },
                                 format='json'
                                 )
-        assert response.status_code == 400
+
+        assert response.status_code == 400, f"Expected 400 Bad Request, got {response.status_code}"
 
     def test_post_with_correct_data(self):
         client = APIClient()
-        
+
         # Create an artist
-        artist_data = {"artist_name": "TestName", "socialLink": "https://www.instagram.com/"}
-        artist = ArtistSerializer(data=artist_data)
-        if artist.is_valid():
-            artist_instance = artist.save()  # Save the artist instance
+        artist_data = {"artist_name": "TestName", "social_link": "https://www.instagram.com/"}
+        artist_serializer = ArtistSerializer(data=artist_data)
+        if artist_serializer.is_valid():
+            artist_instance = artist_serializer.save()  # Save the artist instance
         else:
-            print(artist.errors)  # Print errors if artist is not valid
+            print(artist_serializer.errors)  # Print errors if artist is not valid
+
+        # Create a user for authentication
+        user = User.objects.create_user(username='testuser', password='testpassword')
+        # Assuming you have a related Artist model connected to the User
+        artist_instance.user = user  # Link the artist to the user
+        artist_instance.save()
+
+        # Authenticate the client
+        client.force_authenticate(user=user)
 
         # Create the album with at least one song
         response = client.post(reverse('album-create'),
@@ -50,7 +71,6 @@ class TestAlbumAPI:
                                     "album_name": "my album",
                                     "artist": artist_instance.id,  # Use the saved artist's ID
                                     'cost': 200,
-                                    'releaseDateTime': datetime.now().isoformat(),  # Use ISO format
                                     "songs": [
                                         {
                                             "name": "Song 1",
@@ -61,6 +81,6 @@ class TestAlbumAPI:
                                 },
                                 format='json'
                                 )
-        
+
         print(response.data)  # Output the response data for debugging
         assert response.status_code == 201, f"Album creation failed: {response.data}"
