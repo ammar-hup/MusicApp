@@ -499,3 +499,7 @@ we will use the data from `models` to make the form (it's like a combination bet
         dataform.save()
         return render(request,'mainpage/about.html' , {'LF' : LoginForm})
     ```
+
+### Celery ##
+to run the celery broker
+`celery -A musicplatform worker -l info`

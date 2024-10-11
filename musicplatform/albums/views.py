@@ -11,6 +11,7 @@ from .filters import AlbumFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.views import APIView
+from .tasks import send_congratulations_email
 
 class IsArtist(permissions.BasePermission):
     """
@@ -38,6 +39,11 @@ class ListCreateAlbumView(generics.ListCreateAPIView):
             return [IsArtist()]
         # Allow any user to view the albums
         return [AllowAny()]
+
+    def perform_create(self, serializer):
+        album = serializer.save(artist=self.request.user.artist)  # Save the album
+        # Trigger the email sending task
+        send_congratulations_email.delay(album.artist.id, album.album_name)  # Pass artist ID and album name
 
 class ManualFilterAlbumView(APIView):
     def get(self, request):
@@ -88,7 +94,7 @@ class RetrieveUpdateDestroySongView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Song.objects.all()
     serializer_class = SongSerializer
 
-# Django Views
+# Django Web Views
 
 class CreateAlbumView(CreateView):
     model = Album

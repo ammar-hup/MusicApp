@@ -15,6 +15,8 @@ from datetime import timedelta
 from rest_framework.settings import api_settings
 from cryptography.hazmat.primitives import hashes
 import os
+from celery import Celery
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'knox',
     'django_filters',
+    'django_celery_beat',
     'albums',
     'artists',
     'authentication',
@@ -174,4 +177,34 @@ MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Celery configuration options
+CELERY_CONF_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_CONF_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_CONF_TIMEZONE = 'UTC'
+CELERY_CONF_BEAT_SCHEDULE = {
+    'send-congratulations-every-10s': {
+        'task': 'albums.tasks.send_congratulations_email',
+        'schedule': 30.00,  # Run once every 24 hours
+        'args': (1, 'New Album Title'),  # No arguments needed
+    },
+    # 'test-task-every-10-seconds': {
+    #     'task': 'musicplatform.tasks.test_task',
+    #     'schedule': 10.0,  # every 10 seconds
+    #     'args': (),
+    # },
+}
+
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+
+
+# Email settings
+from decouple import config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # Get email from .env
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Get password from .env
+DEFAULT_FROM_EMAIL = 'amar.link8@gmail.com'  # Use the same email for default from
